@@ -8,10 +8,15 @@ using UnityEngine.UI;
 public class ChestMovement : MonoBehaviour
 {
     public GameObject chest;
+    public GameObject starOne;
+    public GameObject starTwo;
+    public GameObject starThree;
     public Text scoreDisplay;
     public float speed = 1f;
-	public static Text score;
-	public Text timee;
+	public Text scoreText;
+    public double score;
+    public Text timee;
+    public double timer;
 
     private string currentScene;
 
@@ -26,16 +31,15 @@ public class ChestMovement : MonoBehaviour
 			chest.transform.Rotate(speed, 0, 0);
 			rotationAngle++;
 		}
-
+        
 		Invoke("ShowScore", 0);
 	}
 
 	void ShowScore()
 	{
-		score = Timer.timerText;
-		Debug.Log (score);
-		//score = timee / 100 * 0.5;
-		scoreDisplay.text = "Your Score is: ";
+	    score = (timer / 100) * 50;
+        Debug.Log(score);
+		scoreDisplay.text = "S" + score.ToString("f0");
 		scoreDisplay.GetComponent<Text>().enabled = true;      //Enable the text so it is not visible anymore
 		print(scoreDisplay);
 	}
@@ -43,7 +47,14 @@ public class ChestMovement : MonoBehaviour
 	void InitialiseVars()
 	{
 		chest = GameObject.FindGameObjectWithTag("Chest");
-		scoreDisplay = GetComponent<Text>();
+        starOne = GameObject.FindGameObjectWithTag("StarOne");
+        starTwo = GameObject.FindGameObjectWithTag("StarTwo");
+        starThree = GameObject.FindGameObjectWithTag("StarThree");
+
+
+        //starOne.GetComponent<Image>().color = new Color32(0, 0, 0, 255);
+
+        scoreDisplay = GetComponent<Text>();
 	}
     //Plane objPlane;
     //Vector3 mo;
@@ -53,13 +64,11 @@ public class ChestMovement : MonoBehaviour
         InitialiseVars();
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
-		timee = Timer.timerText;
-		Debug.Log (timee);
+        timer += Time.deltaTime;
+
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
